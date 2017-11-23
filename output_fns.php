@@ -338,8 +338,97 @@ function display_cart($cart, $change = true, $images=1) {
         $book = get_book_details($isbn);
         echo '<tr>';
         if($images == true) {
-
+            echo "<tr align='left'>";
+            if(file_exists("images".$isbn.".jpg")) {
+                $size = GetImageSize('images/'.$isbn.'.jpg');
+                if(($size[0] > 0) && ($size[1] > 0)) {
+                    echo "<img src='images/'".$book['isbn']."'.jpg' style='border: 1px solid black'/
+                    width='".($size[0]/3)."' height='".($size[1]/3)."'";
+                }
+            } else {
+                echo "&nbsp;";
+            }
+            echo '</td>';
         }
+        echo "<td align='left'>
+        <a href='show_book.php?isbn='.$isbn.''>".$book['title']."</a>
+        by ".$book['author']."
+        </td>
+        <td align='center'>$".number_format($book['price'], 2)."</td>
+        <td align='center'>";
+
+        // if we allow changes, quantities are in text boxes
+        if($change == true) {
+            echo "<input type='text' name='".$isbn."' value='".$qty."' size='3' />";
+        } else {
+            echo $qty;
+        }
+        echo "</td><td align='center'>$".number_format($book['price']*$qty, 2)."</td>";
     }
+
+    // display total row
+    echo "<tr>
+    <th colspab='".(2+$images)."' bgcolor='#cccccc'>&nbsp;</th>
+    <th align='center' bgcolor='#cccccc'>".$_SESSION['items']."</th>
+    <th align='center' bgcolor='#cccccc'>$".number_format($_SESSION['total_price'], 2)."</th>
+    </tr>";
+
+    // display save change button
+    if($change == true) {
+        echo "<tr>
+        <td colspan='".(2+$images)."'>&nbsp;</td>
+        <td align='center'>
+            <input type='hidden' name='save' value='true'>
+            <input type='image' src='images/save-changes.gif' border='0' alt='Save Changes'>
+        </td>
+        <td>&nbsp;</td>
+    </tr>";
+    }
+    echo "</form></table>";
 }
 
+function display_login_form() {
+    // display form asking for name and password
+    ?>
+    <form action="admin.php" method="post">
+        <table bgcolor="#cccccc">
+            <tr>
+                <td>Username:</td>
+                <td><input type="text" name="username"></td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td><input type="password" name="passwd"></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="submit" value="Log in">
+                </td>
+            </tr>
+        </table>
+    </form>
+    <?php
+}
+
+function display_admin_menu() {
+    ?>
+    <br>
+    <a href="index.php">Go to main site</a><br>
+    <a href="insert_category_form.php">Add a new category</a><br>
+    <a href="insert_book_form.php">Add a new book</a>
+    <a href="change_password_form">Change admin password</a>
+    <?php
+}
+
+function display_button($target, $image, $alt) {
+    echo "<div><a href='".$target."'>
+<img src='images/".$image.".gif' alt='".$alt."'
+border='0' height='50' width='135'>
+</a></div>";
+}
+
+function display_form_button($image, $alt) {
+    echo "<div align='center'>
+<input type='image' src='images/".$image.".gif' alt='".$alt."' border='0' height='50' width='135'>
+</div>";
+}
