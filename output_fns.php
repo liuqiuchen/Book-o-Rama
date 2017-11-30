@@ -2,10 +2,10 @@
 
 function do_html_header($title = '')
 {
-    if (!$_SESSION['items']) {
+    if (@!$_SESSION['items']) {
         $_SESSION['items'] = '0';
     }
-    if (!$_SESSION['total_price']) {
+    if (@!$_SESSION['total_price']) {
         $_SESSION['total_price'] = '0.00';
     }
 
@@ -23,12 +23,12 @@ function do_html_header($title = '')
 
             body {
                 font-family: Arial, Helvetica, sans-serif;
-                font-size: 13px;
+                font-size: 16px;
             }
 
             li, td {
                 font-family: Arial, Helvetica, sans-serif;
-                font-size: 13px;
+                font-size: 16px;
             }
 
             hr {
@@ -54,7 +54,7 @@ function do_html_header($title = '')
                 if (isset($_SESSION['admin_user'])) {
                     display_button('logout.php', 'log-out', 'Log Out');
                 } else {
-                    display_button('show_cart.php', 'view_cart', 'View Your Shopping Cart');
+                    display_button('show_cart.php', 'view-cart', 'View Your Shopping Cart');
                 }
                 ?>
             </td>
@@ -124,7 +124,7 @@ function display_books($book_array) {
             $url = 'show_book.php?isbn='.$row['isbn'];
             echo '<tr><td>';
             if(@file_exists('images/'.$row['isbn'].'.jpg')) {
-                $title = "<img src='images/'".$row['isbn']."'.jpg' style='border: 1px solid black'/>";
+                $title = "<img src=\"images/".$row['isbn'].".jpg\" style='border: 1px solid black'/>";
                 do_html_url($url, $title);
             } else {
                 echo "&nbsp;";
@@ -378,7 +378,7 @@ function display_cart($cart, $change = true, $images=1) {
         echo "<tr>
         <td colspan='".(2+$images)."'>&nbsp;</td>
         <td align='center'>
-            <input type='hidden' name='save' value='true'>
+            <input type='hidden' name='save' value='true'><br>
             <input type='image' src='images/save-changes.gif' border='0' alt='Save Changes'>
         </td>
         <td>&nbsp;</td>
