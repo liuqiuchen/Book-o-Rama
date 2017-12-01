@@ -103,6 +103,8 @@ function display_categories($cat_array) {
     }
     echo '<ul>';
     foreach($cat_array as $row) {
+        // catid是唯一标识数字，由MySQL生成，用以识别目录
+        // 这个将要传递给下一个脚本的参数将确定我们需要查看哪一个目录
         $url = 'show_cat.php?catid='.$row['catid'];
         $title = $row['catname'];
         echo '<li>';
@@ -121,6 +123,7 @@ function display_books($book_array) {
         echo "<table width='100%' border='0'>";
 
         foreach($book_array as $row) {
+            // 每个链接后面都有一个参数。在本项目中，该参数是当前图书的ISBN
             $url = 'show_book.php?isbn='.$row['isbn'];
             echo '<tr><td>';
             if(@file_exists('images/'.$row['isbn'].'.jpg')) {
@@ -145,7 +148,7 @@ function display_book_details($book) {
         if(@file_exists('images/'.$book['isbn'].'.jpg')) {
             $size = GetImageSize('images/'.$book['isbn'].'.jpg');
             if(($size[0] > 0) && ($size[1] > 0)) {
-                echo "<td><img src='images/'".$book['isbn']."'.jpg' style='border: 1px solid black'/></td>";
+                echo "<td><img src='images/".$book['isbn'].".jpg' style='border: 1px solid black'/></td>";
             }
         }
         echo '<td><ul>';
@@ -378,6 +381,7 @@ function display_cart($cart, $change = true, $images=1) {
         echo "<tr>
         <td colspan='".(2+$images)."'>&nbsp;</td>
         <td align='center'>
+        <!-- Save Changes实际上是一个提交按钮，可以将我们带到show_cart.php脚本以更新购物车 -->
             <input type='hidden' name='save' value='true'><br>
             <input type='image' src='images/save-changes.gif' border='0' alt='Save Changes'>
         </td>

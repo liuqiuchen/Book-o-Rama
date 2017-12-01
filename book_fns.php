@@ -19,6 +19,7 @@ function get_categories() {
     return $result;
 }
 
+// 将一个目录标识符转换为一个目录名
 function get_category_name($catid) {
     $conn = db_connect();
     $query = "select catname from categories where catid = '".$catid."'";
