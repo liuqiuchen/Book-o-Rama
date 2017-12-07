@@ -21,3 +21,6 @@
 点击"View Cart"或"Add Cart"链接，show_cart.php脚本将显示我们要访问的页面。
 如果不使用任何参数来调用show_cart.php，将看到购物车的内容；
 如果用一个ISBN作为参数，该ISBN对应的物品将被添加到购物车中。
+
+实现一个管理界面
+http://localhost/Book-o-Rama/login.php

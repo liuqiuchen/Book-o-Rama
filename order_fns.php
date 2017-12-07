@@ -1,14 +1,13 @@
 <?php
 function process_card($card_details) {
-    /**
-     * 连接到支付网关或使用GPG加密邮件或
-      如果你真的想要的话，请在DB中存储
-     */
+    // connect to payment gateway or
+    // use gpg to encrypt and mail or
+    // store in DB if you really want to
+
     return true;
 }
 
-function insert_order($order_details)
-{
+function insert_order($order_details) {
     // extract order_details out as variables
     extract($order_details);
 
@@ -40,8 +39,8 @@ function insert_order($order_details)
         $customer = $result->fetch_object();
         $customerid = $customer->customerid;
     } else {
-        $query = "insert into customers values
-            ('', '".$name."','".$address."','".$city."','".$state."','".$zip."','".$country."')";
+        $query = "insert into customers (name, address, city, state, zip, country) values ( '".$name."', '".$address."',
+    '".$city."', '".$state."', '".$zip."', '".$country."')";
         $result = $conn->query($query);
 
         if (!$result) {
@@ -53,8 +52,9 @@ function insert_order($order_details)
 
     $date = date("Y-m-d");
 
-    $query = "insert into orders values
-            ('', '".$customerid."', '".$_SESSION['total_price']."', '".$date."', '".PARTIAL."',
+    $query = "insert into orders (customerid, amount, date, order_status, ship_name, ship_address, 
+ship_city, ship_state, ship_zip, ship_country) values
+            ('".$customerid."', '".$_SESSION['total_price']."', '".$date."', 'PARTIAL',
              '".$ship_name."', '".$ship_address."', '".$ship_city."', '".$ship_state."',
              '".$ship_zip."', '".$ship_country."')";
 
@@ -63,6 +63,7 @@ function insert_order($order_details)
         return false;
     }
 
+    // 从这里开始查错
     $query = "select orderid from orders where
                customerid = '".$customerid."' and
                amount > (".$_SESSION['total_price']."-.001) and
