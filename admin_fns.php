@@ -185,10 +185,10 @@ where catname = '".$catname."'";
     }
 
     // insert new category
-    $query = "insert into categories VALUES 
-('', '', '".$catname."')";
+    $query = "insert into categories (catname) VALUES 
+('".$catname."')";
     $result = $conn->query($query);
-    check_result($result);
+    return check_result($result);
 }
 
 function insert_book($isbn, $title, $author, $catid, $price, $description) {
@@ -206,7 +206,7 @@ function insert_book($isbn, $title, $author, $catid, $price, $description) {
     $query = "insert into books VALUES 
 ('".$isbn."', '".$author."', '".$title."', '".$catid."', '".$price."', '".$description."')";
     $result = $conn->query($query);
-    check_result($result);
+    return check_result($result);
 }
 
 function update_category($catid, $catname) {
@@ -230,7 +230,7 @@ function update_book($oldisbn, $isbn, $title, $author, $catid, $price, $descript
     where isbn = '".$oldisbn."'";
 
     $result = @$conn->query($query);
-    check_result($result);
+    return check_result($result);
 }
 
 function delete_category($catid) {
